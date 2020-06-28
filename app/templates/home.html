@@ -1,6 +1,50 @@
 {% extends "base.html" %}
 {% block content %}
-    <body>
-        <a class="btn btn-large btn-primary" href="{{ url_for('logout') }}">Logout</a>
-    </body>
+    <div class="home-page">
+    <nav class="navbar navbar-expand-lg navbar-light">
+
+        <a class="navbar-brand" href="">FindancialAid</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    <div class="container-fluid" id="home">
+        <div class="row home-box">
+          <a href="#" class="col-lg-4 feature-box">
+              <div class="inner-box">
+                  <i class="icon fas fa-user fa-7x"></i>
+                  <h3 class="feature-title">View Profile</h3>
+              </div>
+          </a>
+          <a href = "{{ url_for('search') }}" class="col-lg-4 feature-box">
+              <div class="inner-box">
+                  <i class="icon fas fa-th-list fa-7x"></i>
+                  <h3 class="feature-title">View Financial Plans</h3>
+              </div>
+          </a>
+          <a href="#" class="col-lg-4 feature-box">
+              <div class="inner-box">
+                   <i class="icon fas fa-bullhorn fa-7x"></i>
+                  <h3 class="feature-title"> View Announcements</h3>
+              </div>
+          </a>
+      </div>
+    </div>
+  </div>
 {% endblock %}

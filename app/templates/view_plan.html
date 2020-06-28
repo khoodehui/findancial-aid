@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ plan.name }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
     <div>
         <button onclick="back()">Back</button>
         <h1>{{ plan.name }}</h1>
@@ -17,10 +11,11 @@
         <h2>How to Apply</h2>
         <p class="article-content">{{ plan.application }}</p>
     </div>
+    {% block scripts %}
     <script>
         function back() {
             window.history.back();
         }
     </script>
-</body>
-</html>
+    {% endblock %}
+{% endblock %}

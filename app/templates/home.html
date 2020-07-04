@@ -26,10 +26,10 @@
       </nav>
     <div class="container-fluid" id="home">
         <div class="row home-box">
-          <a href="#" class="col-lg-4 feature-box">
+          <a href="{{ url_for('favourites') }}" class="col-lg-4 feature-box">
               <div class="inner-box">
-                  <i class="icon fas fa-user fa-7x"></i>
-                  <h3 class="feature-title">View Profile</h3>
+                  <i class="icon fas fa-star fa-7x"></i>
+                  <h3 class="feature-title">View Favourites</h3>
               </div>
           </a>
           <a href = "{{ url_for('search') }}" class="col-lg-4 feature-box">

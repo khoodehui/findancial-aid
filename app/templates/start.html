@@ -1,19 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
-    <body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+
+        <a class="navbar-brand" href="{{ url_for('home') }}">FindancialAid</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+
         <div class="container">
+          <hr>
             <div class="row">
-                <div class="col-lg-7">
+                <div class="col-lg-6">
                     <div class="app-name">
-                        <h1 class="logo-first">Findancial<span class="logo-second"> Aid</span></h1>
-                        <p class="tagline">An easy way to find financial aid plans for you and your loved ones.</p>
+                        <h1 class="tagline">An easy way to find financial aid plans for you and your loved ones.</h1>
                     </div>
                     <div class="start-buttons">
                         <a href="{{ url_for('login') }}" class="btn btn-large btn-primary">Log In</a>
-                        <a href="{{ url_for('register') }}" class="btn btn-large btn-dark">Sign Up</a>
+                        <a href="{{ url_for('register') }}" class="btn btn-large btn-dark">Get Started</a>
                     </div>
+                </div>
+                <div class="col-lg-6">
+                    <img class="start-image" src="{{ url_for('static', filename='financial.png') }}" alt='financial aid picture'>
                 </div>
             </div>
         </div>
-    </body>
 {% endblock %}

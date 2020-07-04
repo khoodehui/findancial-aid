@@ -1,18 +1,73 @@
 {% extends "base.html" %}
 {% block content %}
-    {% for plan in plans %}
-        <div id="{{ plan.name }}">
-            <fieldset>
-                <h1>{{ plan.name }}</h1>
-                <h2>Requirements</h2>
-                <p class="article-content">{{ plan.req_short }}</p>
-                <h2>Key Benefits</h2>
-                <p class="article-content">{{ plan.benefits_short }}</p>
-                <a href="{{ url_for("view_plan", plan_name=plan.name) }}">Read More</a>
-                <button id="{{ plan.id }}" class='remove-fav-button btn btn-default'>Remove</button>
-            </fieldset>
-            <br>
-            <br>
+    <nav class="navbar navbar-expand-lg navbar-light">
+
+        <a class="navbar-brand" href="{{ url_for('home') }}">FindancialAid</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+            </li>
+          </ul>
         </div>
+      </nav>
+    <div class="container">
+    <hr>
+    <h1 class="fav-head">
+        <i class=" star-icon fas fa-star"></i>
+        Favourites
+    </h1>
+    {% for plan in plans %}
+        <div class="card fav-plans">
+                <div class="card-body">
+                    <table class="plan-generated">
+                         <button id="{{ plan.id }}" class="remove-fav-button btn btn-danger">Remove from favourites</button>
+                        <tr>
+                            <th class="plan-table-header">
+                                <div class="plan-head-name">
+                                    <h1>{{ plan.name }}</h1
+                                </div>
+                            </th>
+
+                        </tr>
+                        <tr>
+                            <td><h2>Requirements</h2></td>
+                        </tr>
+                        <tr>
+                            <td><p class="article-content">{{ plan.req_short }}</p></td>
+                        </tr>
+                        <tr>
+                            <td><h2>Key Benefits</h2></td>
+                        </tr>
+                        <tr>
+                            <td><p class="article-content">{{ plan.benefits_short }}</p></td>
+                        </tr>
+                        <tr>
+                            <td class="fav-buttons">
+                                <a href="{{ url_for("view_plan", plan_name=plan.name) }}">Read More</a>
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+
     {% endfor %}
+    </div>
+
 {% endblock %}

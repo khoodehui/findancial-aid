@@ -38,12 +38,18 @@ body {
 }
 
 .tagline {
-  font-size: 20px;
-  font-style: italic;
+    font-family: 'Montserrat', sans-serif;
+  font-size: 50px;
+  font-weight: 900;
+    line-height: 4rem;
+
+    color:#769fcd;
+    padding: 20px;
   margin-top: -15px;
 }
 
 .start-buttons {
+    padding-left: 20px;
   margin-top: 30px;
 }
 
@@ -51,8 +57,9 @@ body {
   text-align: center;
   width: 100%;
   max-width: 440px;
-  padding: 30px;
+  padding: 50px;
   margin: auto;
+    margin-top:70px;
   background-color: #fff;
 }
 
@@ -77,11 +84,8 @@ body {
 .fav-button{
     position: absolute;
     right: 30px;
-    top: 20px;
-}
-
-.remove-fav-button{
-
+    bottom: 20px;
+    color: black;
 }
 
 /* NavBar */
@@ -184,24 +188,24 @@ body {
 
 .checkboxes{
     padding: 10px 100px ;
-    font-family: "Helvetica";
+    font-family:  Helvetica Neue, Helvetica, Arial, sans-serif;
     margin: 0px;
 }
 
-#plan-generated{
+.plan-generated{
     width: 100%;
     margin:auto;
-    font-family: "helvetica";
+    font-family:  Helvetica Neue, Helvetica, Arial, sans-serif;
 
 }
 
-#plan-generated td{
+.plan-generated td{
     width: 100%;
     padding: 10px 20px;
 
 }
 
-#plan-generated th{
+.plan-generated th{
     width: 100%;
     background-color: #769fcd;
     color:white;
@@ -247,15 +251,61 @@ body {
 }
 
 /* View_plan.html*/
-.back-btn{
-    text-decoration: none;
-    display: inline-block;
-    padding: 8px 16px;
+.plan-info {
+    margin: 30px;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+.plan-head{
     background-color: #769fcd;
-
+    padding: 15px 20px;
+    margin-bottom: 30px;
+}
+.plan-name{
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fff;
 }
 
-back-btn:hover {
-  background-color: #ddd;
-  color: black;
+.plan-name:hover{
+    color:#D6E6F2;
 }
+.plan-other-parts {
+    padding: 15px;
+}
+
+.plan-sec{
+    font-weight: bold;
+    font-size: 2.5rem;
+}
+.back-button{
+    margin: 30px;
+}
+.fav-head{
+    font-size: 4rem;
+    color: #769fcd;
+    margin: auto;
+    font-weight:bold;
+
+}
+.star-icon{
+    color: gold;
+}
+
+
+.plan-head-name{
+    position: relative;
+}
+
+.remove-fav-button{
+    position: absolute;
+     right: 30px;
+    bottom: 5%;
+    color: white;
+}
+
+.start-image{
+
+    transform: rotate(-15deg);
+}
+
+

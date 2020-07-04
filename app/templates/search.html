@@ -2,7 +2,7 @@
 {% block content %}
     <nav class="navbar navbar-expand-lg navbar-light">
 
-        <a class="navbar-brand" href="">FindancialAid</a>
+        <a class="navbar-brand" href="{{ url_for('home') }}">FindancialAid</a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
             <span class="navbar-toggler-icon"></span>
@@ -23,8 +23,8 @@
           </ul>
         </div>
       </nav>
-    <hr>
     <div class="container">
+        <hr>
         <p class="select-plan">Select the type(s) of plan(s)</p>
         <form method="POST" action="">
             {{ form.hidden_tag() }}
@@ -66,18 +66,16 @@
                 <span class="submit-button">{{ form.submit }}</span>
             </div>
         </form>
-    </div>
-    <hr>
-    <div class="container">
+        <hr>
         {% for plan in results %}
             <div class="card">
                 <div class="card-body">
-                    <table id="plan-generated">
+                    <table class="plan-generated">
                         <tr>
                             <th class="plan-table-header">
                                 <h1>{{ plan.name }}</h1>
                                 <form>
-                                    <button id="{{ plan.id }}" class='fav-button btn btn-light'>Favourite</button>
+                                    <button id="{{ plan.id }}" class='fav-button btn btn-warning'>Favourite</button>
                                 </form>
                             </th>
 

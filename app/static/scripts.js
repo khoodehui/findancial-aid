@@ -1,31 +1,59 @@
-//Add favourite for search.html
-$(function() {
-  $(".fav-button").bind('click', function(event) {
-      const url = '/background_process_favourite/' + event.target.id;
-    $.getJSON(url,
-        function(data) {
-      //do nothing
-    });
-    return false;
-  });
+//Check overlap with navbar
+$(document).ready(function() {
+    const navbarBottom = 77;
+    const formBox = $(".app-form-box");
+    const formBoxTop = formBox.offset().top;
+    if (formBoxTop < navbarBottom) {
+        const pixelShift = navbarBottom - formBoxTop;
+        formBox.css("margin-top", pixelShift.toString() + "px");
+    }
 });
-
-//Remove favourite for favourites.html
-$(function() {
-  $(".remove-fav-button").bind('click', function(event) {
-      const url = '/background_process_remove_favourite/' + event.target.id;
-    $.getJSON(url,
-        function(data) {
-      //do nothing
-    });
-    return false;
-  });
-});
-
 
 //Remove favourited plan for favourites.html
-$(".remove-fav-button").click(function(event) {
-    const planDiv = $(event.target).parent().parent()
+$(".remove-fav-btn").click(function(event) {
+    const planDiv = $(event.target).parent().parent().parent()
     planDiv.html("Plan removed from favourites.")
-    // planDiv.addClass("alert alert-primary")
+});
+
+//Favourite button
+$(".fav-btn").click(function(event) {
+    if ($(this).hasClass("fav-btn-checked")) {
+        $(this).removeClass("fav-btn-checked").addClass("fav-btn-unchecked");
+        const url = '/background_process_remove_favourite/' + event.target.id;
+    $.getJSON(url,
+        function(data) {
+      //do nothing
+    });
+    return false;
+    } else {
+        $(this).removeClass("fav-btn-unchecked").addClass("fav-btn-checked");
+        const url = '/background_process_favourite/' + event.target.id;
+    $.getJSON(url,
+        function(data) {
+      //do nothing
+    });
+    return false;
+    }
+});
+
+
+//Back button
+function backButton() {
+    window.history.back();
+}
+
+//Back to top button
+function backToTop() {
+    $('html, body').animate({scrollTop:0}, '300');
+}
+
+$(document).ready(function() {
+    var btn = $('#back-to-top');
+    $(window).scroll(function() {
+        if ($(window).scrollTop() > 300) {
+            btn.addClass("show");
+        } else {
+            btn.removeClass("show");
+        }
+    })
 })

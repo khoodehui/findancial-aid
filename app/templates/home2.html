@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="container-fluid h-100">
+            <div id="home-button-group" class="row h-100 d-flex align-items-stretch">
+                <div id="view-favourites" class="col-lg-4 col-md-6 ">
+                    <a href="{{ url_for('favourites') }}" class="h2-a">
+                        <div class="h2-button h-100">
+                            <i class="icon fas fa-star fa-4x"></i>
+                            <p>Favourites</p>
+                        </div>
+                    </a>
+                </div>
+                <div id="view-plans" class="col-lg-4 col-md-6">
+                    <a href="{{ url_for('search') }}" class="h2-a">
+                        <div class="h2-button h-100">
+                            <i class="icon fas fa-th-list fa-4x"></i>
+                            <p>Search Plans</p>
+                        </div>
+                    </a>
+                </div>
+                <div id="view-announcements" class="col-lg-4">
+                    <a href="#" class="h2-a">
+                        <div class="h2-button h-100">
+                            <i class="icon fas fa-bullhorn fa-4x"></i>
+                            <p>Announcements</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+    <!--jQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!--Bootstrap Scripts-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+
+    <!--Website Scripts-->
+    <script src="{{ url_for('static', filename='scripts.js') }}" type=text/javascript></script>
+  </body>
+</html>

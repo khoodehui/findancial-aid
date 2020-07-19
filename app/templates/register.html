@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="flex-div">
-        <div class="login-box">
+    <div class="d-flex align-items-center justify-content-center h-100 px-3">
+        <div class="app-form-box">
             <div>
                 <form method="POST" action="">
                     {{ form.hidden_tag() }}
@@ -55,7 +55,7 @@
                         {% endif %}
                     </div>
                     <div class="mt-4 pt-3">
-                        {{ form.submit(class="btn btn-lg btn-block btn-info") }}
+                        <button type="submit" class="btn btn-lg btn-block btn-primary">Sign up</button>
                     </div>
                 </form>
             </div>

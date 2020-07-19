@@ -1,18 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
-    {% for plan in plans %}
-        <div id="{{ plan.name }}">
-            <fieldset>
-                <h1>{{ plan.name }}</h1>
-                <h2>Requirements</h2>
-                <p class="article-content">{{ plan.req_short }}</p>
-                <h2>Key Benefits</h2>
-                <p class="article-content">{{ plan.benefits_short }}</p>
-                <a href="{{ url_for("view_plan", plan_name=plan.name) }}">Read More</a>
-                <button id="{{ plan.id }}" class='remove-fav-button btn btn-default'>Remove</button>
-            </fieldset>
-            <br>
-            <br>
-        </div>
+     <div class="container">
+     <h1 class="fav-head">
+         <i class=" star-icon fas fa-star"></i>
+         Favourites
+     </h1>
+     {% for plan in plans %}
+         <div class="card mt-3">
+                <div class="card-body">
+                    <div class="plan-title plan-section">
+                        <div>
+                            <h2>{{ plan.name }}</h2>
+                        </div>
+                        <div class="fav">
+                            <i id="{{ plan.id }}" class="fas fa-star fav-btn fav-btn-checked remove-fav-btn"></i>
+                        </div>
+                    </div>
+                    <div class="plan-section mt-2">
+                        <h3>Requirements</h3>
+                        <p class="article-content">{{ plan.req_short }}</p>
+                    </div>
+                    <div class="plan-section">
+                        <h3>Key Benefits</h3>
+                        <p class="article-content">{{ plan.benefits_short }}</p>
+                        <a href="{{ url_for("view_plan", plan_name=plan.name) }}">Read More</a>
+                    </div>
+                </div>
+         </div>
     {% endfor %}
+    </div>
+    <button id="back-to-top" onclick="backToTop()"><i class="fas fa-chevron-up"></i></button>
 {% endblock %}

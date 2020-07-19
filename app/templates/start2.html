@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row start-page-div">
+            <div class="col-lg-6 start-page-items">
+                <div>
+                    <h1 id="app-tagline">An easy way to find financial aid plans for you and your loved ones.</h1>
+                </div>
+                <div class="mt-4">
+                    <a href="{{ url_for('login') }}" class="btn btn-large btn-primary mr-3 start-buttons">Log In</a>
+                    <a href="{{ url_for('signup') }}" class="btn btn-large btn-dark start-buttons">Sign Up</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img class="start-image" src="{{ url_for('static', filename='financial.png') }}" alt='Findancial Aid Logo'>
+            </div>
+        </div>
+    </div>
+{% endblock %}

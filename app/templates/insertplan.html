@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Insert Plan</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block links %}
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
     <div>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -15,7 +13,6 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        {% block content %}{% endblock %}
     </div>
     <form method="POST" action="">
         {{ form.hidden_tag() }}
@@ -31,7 +28,7 @@
             </div>
             <div>
                 {{ form.req_full.label }}
-                {{ form.req_full }}
+                {{ form.req_full(class="summernote") }}
             </div>
             <div>
                 {{ form.benefits_short.label }}
@@ -39,7 +36,7 @@
             </div>
             <div>
                 {{ form.benefits_full.label }}
-                {{ form.benefits_full }}
+                {{ form.benefits_full(class="summernote") }}
             </div>
             <div>
                 {{ form.website.label }}
@@ -76,5 +73,12 @@
         </fieldset>
         {{ form.submit }}
     </form>
-</body>
-</html>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.summernote').summernote();
+    });
+</script>
+{% endblock %}

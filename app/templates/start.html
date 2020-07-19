@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
-    <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-7">
-                    <div class="app-name">
-                        <h1 class="logo-first">Findancial<span class="logo-second"> Aid</span></h1>
-                        <p class="tagline">An easy way to find financial aid plans for you and your loved ones.</p>
-                    </div>
-                    <div class="start-buttons">
-                        <a href="{{ url_for('login') }}" class="btn btn-large btn-primary">Log In</a>
-                        <a href="{{ url_for('register') }}" class="btn btn-large btn-dark">Sign Up</a>
-                    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="app-name">
+                    <h1 class="tagline">An easy way to find financial aid plans for you and your loved ones.</h1>
+                </div>
+                <div class="mt-4">
+                    <a href="{{ url_for('login') }}" class="btn btn-large btn-primary start-buttons">Log In</a>
+                    <a href="{{ url_for('signup') }}" class="btn btn-large btn-dark start-buttons">Get Started</a>
                 </div>
             </div>
+            <div class="col-lg-6">
+                 <img class="start-image" src="{{ url_for('static', filename='financial.png') }}" alt='financial aid picture'>
+             </div>
         </div>
-    </body>
+    </div>
 {% endblock %}

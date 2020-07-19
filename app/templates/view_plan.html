@@ -1,21 +1,47 @@
 {% extends "base.html" %}
 {% block content %}
-    <div>
-        <button onclick="back()">Back</button>
-        <h1>{{ plan.name }}</h1>
-        <a href="{{ plan.website }}">Website</a>
-        <h2>Requirements</h2>
-        <p class="article-content">{{ plan.req_full }}</p>
-        <h2>Benefits</h2>
-        <p class="article-content">{{ plan.benefits_full }}</p>
-        <h2>How to Apply</h2>
-        <p class="article-content">{{ plan.application }}</p>
+    <div class="container">
+{#     <div class="card plan-info">#}
+{#      <div class="card-body">#}
+{#               <div class="plan-head">#}
+{#                 <a href="{{ plan.website }}" class="plan-name">{{ plan.name }}</a>#}
+{#               </div>#}
+{#               <div class="plan-other-parts">#}
+{#                   <p class="plan-sec">Requirements</p>#}
+{#                   <p class="article-content">{{ plan.req_full }}</p>#}
+{#               </div>#}
+{#               <div class="plan-other-parts">#}
+{#                   <p class="plan-sec">Benefits</p>#}
+{#                   <p class="article-content">{{ plan.benefits_full }}</p>#}
+{#               </div>#}
+{#               <div class="plan-other-parts">#}
+{#                   <p class="plan-sec">How to Apply</p>#}
+{#                   <p class="article-content">{{ plan.application }}</p>#}
+{#               </div>#}
+{##}
+{#     </div>#}
+{#     </div>#}
+        <div class="card mt-3">
+            <div class="card-body">
+                <div class="plan-title plan-section">
+                    <div>
+                        <h2>{{ plan.name }}</h2>
+                    </div>
+                </div>
+                <div class="plan-section mt-2">
+                    <h3>Requirements</h3>
+                    <p class="article-content">{{ plan.req_full }}</p>
+                </div>
+                <div class="plan-section">
+                    <h3>Benefits</h3>
+                    <p class="article-content">{{ plan.benefits_full}}</p>
+                    <a href="{{ plan.website }}">View Source Website</a>
+                </div>
+            </div>
+        </div>
     </div>
-    {% block scripts %}
-    <script>
-        function back() {
-            window.history.back();
-        }
-    </script>
-    {% endblock %}
+    <button class="btn btn-light back-button " onclick="backButton()">
+             <i class="fas fa-long-arrow-alt-left "></i>
+             <span class="back-btn-words">View other plans</span>
+    </button>
 {% endblock %}

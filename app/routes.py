@@ -1,15 +1,18 @@
-from flask import render_template, flash, url_for, redirect, request
+from threading import Thread
+from flask import render_template, flash, url_for, redirect, request, session
 from flask_login import login_user, login_required, current_user, logout_user
-from app import app, db, bcrypt
-from app.forms import LoginForm, RegistrationForm, InsertPlanForm, SearchPlanForm
+from flask_mail import Message
+from app import app, db, bcrypt, mail
+from app.forms import LoginForm, RegistrationForm, InsertPlanForm, SearchPlanForm, RequestResetForm, ResetPasswordForm
 from app.models import User, Plan
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 
 @app.route('/')
 def start():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
-    return render_template('start.html', title="Get Started")
+    return render_template('start2.html', title="Get Started")
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -28,29 +31,135 @@ def login():
     return render_template('login.html', title='Log In', form=form)
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message('Password Reset Request', sender='noreply@demo.com', recipients=[user.email])
+    msg.body = f'''To reset your password, click on the following link:
+{url_for('reset_token', token=token, _external=True)}
+
+If you did not make this request, please ignore this email. No changes will be made to your account.
+'''
+    thr = Thread(target=send_async_email, args=[msg])
+    thr.start()
+
+
+@app.route('/reset_password', methods=['GET', 'POST'])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('invalid_action'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        return render_template('reset_password_token_sent.html', title="Reset Password", email=form.email.data)
+    return render_template('reset_password.html', title="Reset Password", form=form)
+
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('invalid_action'))
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('Invalid or expired token. Please try again.', 'warning')
+        return redirect(url_for('reset_request'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        flash('Password has been reset.', 'success')
+        return redirect(url_for('login'))
+    return render_template('reset_password_token_valid.html', title='Reset Password', form=form)
+
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password, favourites="")
+        session['username'] = form.username.data
+        session['email'] = form.email.data
+        session['password'] = hashed_password
+        return redirect(url_for('confirm'))
+    return render_template('register.html', title='Sign Up', form=form)
+
+
+def send_confirmation_email(expires_sec=1800):
+    s = Serializer(app.config['SECRET_KEY'], expires_sec)
+    token = s.dumps({'user_email': session.get('email')}).decode('utf_8')
+    msg = Message('Confirm Your Email', sender='noreply@demo.com', recipients=[session.get('email')])
+    msg.body = f'''Click on this link to confirm your Email:
+{url_for('confirmed', token=token, _external=True)}
+    '''
+    thr = Thread(target=send_async_email, args=[msg])
+    thr.start()
+
+
+def send_async_email(msg):
+    with app.app_context():
+        mail.send(msg)
+
+
+def verify_confirmation_token(token):
+    s = Serializer(app.config['SECRET_KEY'])
+    try:
+        email = s.loads(token)['user_email']
+    except:
+        return False
+    return email == session.get('email')
+
+
+@app.route('/signup/confirm')
+def confirm():
+    send_confirmation_email()
+    return render_template('confirm_email_token_sent.html', title='Sign Up')
+
+
+@app.route('/signup/confirm/<token>')
+def confirmed(token):
+    if verify_confirmation_token(token):
+        user = User(username=session.get('username'), email=session.get('email'), password=session.get('password'),
+                    favourites="")
         db.session.add(user)
         db.session.commit()
-        flash('Account created. You are now able to login.', 'success')
-        return redirect(url_for('login'))
-    return render_template('register.html', title='Sign Up', form=form)
+        session.pop('username')
+        session.pop('email')
+        session.pop('password')
+        login_user(user)
+        return render_template('confirm_email_success.html', title='Sign Up')
+    else:
+        try:
+            session.pop('username')
+            session.pop('email')
+            session.pop('password')
+            return "Invalid or Expired Token."
+        except:
+            return redirect(url_for('invalid_action'))
 
 
 @app.route('/home')
 @login_required
 def home():
-    return render_template('home.html', title='Home')
+    return render_template('home2.html', title='Home')
 
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('start'))
+
+
+def getFavId():
+    fav_id_str = current_user.favourites.split(",")
+    fav_id_int = []
+
+    for id in fav_id_str:
+        if id == "":
+            continue
+        else:
+            fav_id_int.append(int(id))
+    return fav_id_int
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -66,7 +175,7 @@ def search():
                 plans = eval(query)
                 results.extend(plans)
                 results = list(dict.fromkeys(results))
-    return render_template('search.html', title="Search Plans", form=form, results=results)
+    return render_template('search.html', title="Search Plans", form=form, results=results, fav_id=getFavId())
 
 
 @app.route('/plan/<string:plan_name>')
@@ -95,6 +204,11 @@ def favourites():
     return render_template('favourites.html', title="Favourites", plans=favourited_plans)
 
 
+@app.route('/error')
+def invalid_action():
+    return render_template('invalid_action.html', title='Error')
+
+
 @app.route('/background_process_favourite/<string:plan_id>')
 @login_required
 def background_process_favourite(plan_id):
@@ -109,7 +223,6 @@ def background_process_favourite(plan_id):
 @login_required
 def background_process_remove_favourite(plan_id):
     new_favourites = current_user.favourites.replace("," + plan_id, "")
-    print(new_favourites)
     current_user.favourites = new_favourites
     db.session.commit()
     return ""
@@ -130,3 +243,7 @@ def addplan():
     else:
         return render_template('insertplan.html', form=form)
 
+
+@app.route('/start2')
+def start2():
+    return render_template('start2.html', title='Home')

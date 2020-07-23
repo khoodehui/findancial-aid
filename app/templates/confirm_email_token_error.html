@@ -1,0 +1,4 @@
+{% extends 'base.html' %}
+{% block content %}
+    <p>Invalid or expired token. Your account has NOT been created. Please <a href="{{ url_for('signup') }}">register again</a>.</p>
+{% endblock %}

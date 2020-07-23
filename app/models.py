@@ -1,3 +1,4 @@
+from datetime import datetime
 from app import db, login_manager, app
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -14,6 +15,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     favourites = db.Column(db.Text())
+    unread_announcements = db.Column(db.Text())
+    mailing_list = db.Column(db.Boolean())
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)
@@ -57,3 +60,13 @@ class Plan(db.Model):
 
     def __repr__(self):
         return f"Plan Name: {self.name}"
+
+
+class Announcement(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Text(), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    content = db.Column(db.Text(), nullable=False)
+
+    def __repr__(self):
+        return f"Announcement('{self.title}', '{self.date_posted}')"

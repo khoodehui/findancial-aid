@@ -1,18 +1,21 @@
 //Check overlap with navbar
 $(document).ready(function() {
-    const navbarBottom = 77;
     const formBox = $(".app-form-box");
-    const formBoxTop = formBox.offset().top;
-    if (formBoxTop < navbarBottom) {
-        const pixelShift = navbarBottom - formBoxTop;
-        formBox.css("margin-top", pixelShift.toString() + "px");
+    if (formBox.length) {
+        const navbarBottom = 77;
+        const formBoxTop = formBox.offset().top;
+        if (formBoxTop < navbarBottom) {
+            const pixelShift = navbarBottom - formBoxTop;
+            formBox.css("margin-top", pixelShift.toString() + "px");
+        }
     }
 });
 
 //Remove favourited plan for favourites.html
 $(".remove-fav-btn").click(function(event) {
     const planDiv = $(event.target).parent().parent().parent()
-    planDiv.html("Plan removed from favourites.")
+    console.log(planDiv.html());
+    planDiv.html("Plan removed from favourites.");
 });
 
 //Favourite button
@@ -36,6 +39,14 @@ $(".fav-btn").click(function(event) {
     }
 });
 
+$(".read-check").click(function(event) {
+    const url = '/background_process_read_announcement/' + event.target.id;
+    $(this).remove();
+    $.getJSON(url, function(data) {
+       //do nothing
+    });
+    return false;
+});
 
 //Back button
 function backButton() {
@@ -48,7 +59,7 @@ function backToTop() {
 }
 
 $(document).ready(function() {
-    var btn = $('#back-to-top');
+    const btn = $('#back-to-top');
     $(window).scroll(function() {
         if ($(window).scrollTop() > 300) {
             btn.addClass("show");

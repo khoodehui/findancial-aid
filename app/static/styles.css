@@ -9,17 +9,6 @@ body {
   padding-top: 77px;
 }
 
-.flex-div {
-  /*height: 100%;*/
-  display: flex;
-  padding: 15px;
-  align-items: center;
-}
-
-.start-page {
-  height: 100%;
-}
-
 .app-name {
   margin-top: 80px;
 }
@@ -63,26 +52,17 @@ body {
   margin: 10px;
 }
 
-.plan-table-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 /* NavBar */
-.navbar-brand {
-  color: #0a3058;
-}
-
 .navbar-brand {
   font-weight: 600;
   font-size: 2.1rem;
   letter-spacing: 2px;
->>>>>>> Improvements to app
 }
+
 .nav-item {
   font-size: 1.5rem;
 }
+
 .navbar {
   font-family: "Cormorant Garamond", serif;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -161,9 +141,8 @@ body {
   all: unset;
 }
 .submit-button {
-  box-shadow: inset 0px 1px 0px 0px #dcecfb;
-  background: linear-gradient(to bottom, #bddbfa 5%, #80b5ea 100%);
-  background-color: #bddbfa;
+  box-shadow: inset 0 1px 0 0 #dcecfb;
+  background: #bddbfa linear-gradient(to bottom, #bddbfa 5%, #80b5ea 100%);
   border: none;
   border-radius: 22px;
   display: inline-block;
@@ -173,103 +152,55 @@ body {
   font-size: 18px;
   padding: 9px 22px;
   text-decoration: none;
-  text-shadow: 0px 1px 0px #528ecc;
+  text-shadow: 0 1px 0 #528ecc;
   outline: none;
 }
 .submit-button:hover {
-  background: linear-gradient(to bottom, #80b5ea 5%, #bddbfa 100%);
-  background-color: #80b5ea;
+  background: #80b5ea linear-gradient(to bottom, #80b5ea 5%, #bddbfa 100%);
 }
 .submit-button:active {
   position: relative;
   top: 1px;
+  outline: none;
 }
 
 .checkboxes {
   padding: 10px 100px;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-  margin: 0px;
-}
-
-.plan-table {
-  width: 100%;
-  table-layout: fixed;
-  margin: auto;
-  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-}
-
-.plan-table td {
-  width: 100%;
-  padding: 10px 20px;
-}
-
-.plan-table th {
-  width: 100%;
-  background-color: #769fcd;
-  color: white;
-  padding: 10px 20px;
+  margin: 0;
 }
 
 .select-plan {
   padding: 0 100px;
 }
+
 #home {
   position: relative;
   padding: 2% 5%;
-}
-
-.inner-box {
-  background-color: #769fcd;
-  padding: 220px 0;
-}
-.feature-box {
-  padding: 3%;
-  text-align: center;
-  color: white;
-  font-family: Helvetica;
 }
 
 .icon {
   margin-bottom: 20px;
 }
 
-/*!* View_plan.html*!*/
-/*.plan-info {*/
-/*  margin: 30px;*/
-/*  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;*/
-/*}*/
-/*.plan-head {*/
-/*  background-color: #769fcd;*/
-/*  padding: 15px 20px;*/
-/*  margin-bottom: 30px;*/
-/*}*/
-/*.plan-name {*/
-/*  font-size: 2.5rem;*/
-/*  font-weight: bold;*/
-/*  color: #fff;*/
-/*}*/
-
-/*.plan-name:hover {*/
-/*  color: #d6e6f2;*/
-/*}*/
-/*.plan-other-parts {*/
-/*  padding: 15px;*/
-/*}*/
-
-/*.plan-sec {*/
-/*  font-weight: bold;*/
-/*  font-size: 2.5rem;*/
-/*}*/
 .back-button {
   margin: 30px;
 }
+
 .fav-head {
-  font-size: 4rem;
+  font-size: calc(2rem + 2vw);
   color: #769fcd;
   margin: auto;
   font-weight: bold;
->>>>>>> Improvements to app
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
 }
+
+.fav-head::-webkit-scrollbar {
+  display: none;
+}
+
 .star-icon {
   color: gold;
 }
@@ -278,14 +209,11 @@ body {
   position: relative;
 }
 
-/*.start-image {*/
-/*  transform: rotate(-15deg);*/
-/*}*/
-
-
-
-
 /* NEW STUFF FROM HERE */
+.bullhorn-icon {
+  color: indianred;
+}
+
 
 /* PLAN TABLE CLASSES */
 .plan-title {
@@ -328,6 +256,7 @@ body {
 }
 /* END PLAN TABLE CLASSES */
 
+/* BACK TO TOP BUTTON */
 #back-to-top {
   position: fixed;
   bottom: calc(1em + 1vw);
@@ -452,3 +381,14 @@ body {
   }
 }
 
+/* END START NEW VERSION */
+
+/* ANNOUNCEMENTS */
+.read-check {
+  color: springgreen;
+  cursor: pointer;
+}
+
+.read-check:hover {
+  filter: brightness(90%);
+}

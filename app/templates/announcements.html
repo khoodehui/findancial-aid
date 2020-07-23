@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+     <div class="container">
+     <h1 class="fav-head">
+         <i class="bullhorn-icon fas fa-bullhorn"></i>
+         Announcements
+     </h1>
+     {% for announcement in announcements %}
+         <div class="card mt-3">
+                <div class="card-body">
+                    <div class="plan-title plan-section">
+                        <div>
+                            <h2>{{ announcement.title }}</h2>
+                        </div>
+                        {% if announcement.id in unread %}
+                            <div>
+                                <i id="{{ announcement.id }}" class="read-check fas fa-check"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="plan-section mt-2">
+                        <p class="text-muted font-italic">Posted: {{ announcement.date_posted.strftime('%d %b, %Y %H:%M') }}</p>
+                        <p class="article-content">{{ announcement.content | safe }}</p>
+                    </div>
+                </div>
+         </div>
+    {% endfor %}
+     {{ pagination.links }}
+    </div>
+    <button id="back-to-top" onclick="backToTop()"><i class="fas fa-chevron-up"></i></button>
+{% endblock %}

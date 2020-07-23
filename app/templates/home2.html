@@ -20,10 +20,14 @@
                     </a>
                 </div>
                 <div id="view-announcements" class="col-lg-4">
-                    <a href="#" class="h2-a">
+                    <a href="{{ url_for('announcements') }}" class="h2-a">
                         <div class="h2-button h-100">
                             <i class="icon fas fa-bullhorn fa-4x"></i>
-                            <p>Announcements</p>
+                            {% if unread_count %}
+                                <p>Announcements <span class="badge badge-pill badge-warning">{{ unread_count }}</span></p>
+                            {% else %}
+                                <p>Announcements</p>
+                            {% endif %}
                         </div>
                     </a>
                 </div>

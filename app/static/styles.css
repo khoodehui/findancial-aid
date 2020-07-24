@@ -22,13 +22,6 @@ body {
   margin-top: -15px;
 }
 
-/*.start-buttons {*/
-/*  padding: 12px;*/
-/*  width: 140px;*/
-/*  font-size: 18px;*/
-/*  margin-right: 10px;*/
-/*}*/
-
 .app-form-box {
   text-align: center;
   width: 100%;
@@ -40,6 +33,12 @@ body {
 
 .remember-me {
   text-align: left;
+}
+
+.subscribe {
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
 }
 
 .article-content {

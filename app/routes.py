@@ -8,7 +8,6 @@ from app.forms import LoginForm, RegistrationForm, InsertPlanForm, SearchPlanFor
 from app.models import User, Plan, Announcement
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from sqlalchemy import or_
-from sqlalchemy.testing import in_
 from flask_paginate import Pagination, get_page_parameter
 
 
@@ -16,7 +15,7 @@ from flask_paginate import Pagination, get_page_parameter
 def start():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
-    return render_template('start2.html', title="Get Started")
+    return render_template('start.html', title="Get Started")
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -154,7 +153,7 @@ def confirmed(token):
 @login_required
 def home():
     unread_announcements_count = len(current_user.unread_announcements.split(",")) - 1
-    return render_template('home2.html', title='Home', unread_count=unread_announcements_count)
+    return render_template('home.html', title='Home', unread_count=unread_announcements_count)
 
 
 @app.route('/logout')

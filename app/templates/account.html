@@ -1,4 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
-    {{ current_user.username }}
+{#        <div class="content-section">#}
+{#            <form method="POST" action="">#}
+{#                {{ form.hidden_tag() }}#}
+{#                {% with messages = get_flashed_messages(with_categories=true) %}#}
+{#                    {% if messages %}#}
+{#                        {% for category, message in messages %}#}
+{#                            <div class="alert alert-{{ category }}">#}
+{#                                {{ message }}#}
+{#                            </div>#}
+{#                        {% endfor %}#}
+{#                    {% endif %}#}
+{#                 {% endwith %}#}
+{#                {{ form.old_password }}#}
+{#                {{ form.new_password }}#}
+{#                {{ form.confirm_new_password }}#}
+{#                {{ form.submit }}#}
+{#            </form>#}
+{#        </div>#}
+        <div class="container">
+            <div class="row">
+                <div class="sidenav col-lg-2">
+                    <a href="#">My Account</a><hr>
+                    <a href="#">Mailing List</a><hr>
+                    <a href="#">Change Password</a>
+                </div>
+                <div class="verticalLine">
+                </div>
+                <div class="main col-lg-10">
+                    <div class="account-head">
+                        <i class="fas fa-user fa-6x icon-user"></i>
+                        <p>My profile</p>
+                    </div>
+                    <div class="card account-details">
+                        <div class="card-body">
+                            <h1 class="account-head">Personal Details</h1>
+                            <div class="account-title">
+                                <p class="account-tag">Username</p>
+                                <p class="account-info">{{ current_user.username }}</p>
+                            </div>
+                            <div class="account-title">
+                                <p class="account-tag">Email</p>
+                                <p class="account-info">{{ current_user.email }}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
 {% endblock %}

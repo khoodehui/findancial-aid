@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from app.models import User
@@ -32,7 +33,7 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password', message="Passwords do not match.")])
-    receive_email = BooleanField('Get email notifications of announcements from the application.', default='checked')
+    receive_email = BooleanField('Get email notifications of announcements from the application. You can change the settings in your profile later on.', default=True)
     submit = SubmitField('Sign Up')
 
     def validate_username(self, username):
@@ -84,3 +85,8 @@ class SendMailForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
     submit = SubmitField('Send')
+
+
+class EmailPreferencesForm(FlaskForm):
+    receive_email = BooleanField('Notify me of announcements from the application.')
+    submit = SubmitField('Update Preferences')

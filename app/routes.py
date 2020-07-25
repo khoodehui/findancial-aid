@@ -4,7 +4,7 @@ from flask_login import login_user, login_required, current_user, logout_user
 from flask_mail import Message
 from app import app, db, bcrypt, mail
 from app.forms import LoginForm, RegistrationForm, InsertPlanForm, SearchPlanForm, RequestResetForm, ResetPasswordForm, \
-    SendMailForm
+    SendMailForm, EmailPreferencesForm
 from app.models import User, Plan, Announcement
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from sqlalchemy import or_
@@ -198,8 +198,21 @@ def view_plan(plan_name):
 
 
 @app.route('/account')
+@login_required
 def account():
     return render_template('account.html', title="Account")
+
+
+@app.route('/account/email_preferences', methods=['GET', 'POST'])
+@login_required
+def account_email_pref():
+    form = EmailPreferencesForm()
+    if form.validate_on_submit():
+        current_user.mailing_list = form.receive_email.data
+        db.session.commit()
+        flash('Your preferences has been updated.', 'success')
+        return redirect(url_for('account_email_pref'))
+    return render_template('account_email_pref.html', title="Account", form=form)
 
 
 @app.route('/favourites')
@@ -275,12 +288,12 @@ def post_announcement():
             user.unread_announcements = user.unread_announcements + "," + str(announcement.id)
 
         db.session.commit()
-        raw_email_data = db.session.query(User.email).filter(User.mailing_list).all()
-        msg_html = form.content.data
-        title = form.title.data
-        recipients = [item[0] for item in raw_email_data]
-        thr = Thread(target=send_async_email, args=[title, recipients, "", msg_html])
-        thr.start()
+        # raw_email_data = db.session.query(User.email).filter(User.mailing_list).all()
+        # msg_html = form.content.data
+        # title = form.title.data
+        # recipients = [item[0] for item in raw_email_data]
+        # thr = Thread(target=send_async_email, args=[title, recipients, "", msg_html])
+        # thr.start()
         flash("Announcement posted and emails notifications sent.", "success")
         return redirect(url_for('post_announcement'))
     return render_template('post_announcement.html', form=form)

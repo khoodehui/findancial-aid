@@ -1,4 +1,21 @@
-{% extends "base.html" %}
-{% block content %}
-    {{ current_user.username }}
+{% extends 'account_page_layout.html' %}
+{% block account_content %}
+    <div class="account-head">
+        <i class="fas fa-user fa-6x icon-user"></i>
+        <p>My profile</p>
+    </div>
+    <div class="card account-details">
+        <div class="card-body">
+            <h1 class="account-head">Personal Details</h1>
+            <div class="account-title">
+                <p class="account-tag">Username</p>
+                <p class="account-info">{{ current_user.username }}</p>
+            </div>
+            <div class="account-title">
+                <p class="account-tag">Email</p>
+                <p class="account-info">{{ current_user.email }}</p>
+            </div>
+
+        </div>
+    </div>
 {% endblock %}

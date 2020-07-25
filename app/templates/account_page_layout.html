@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+    {#        <div class="content-section">#}
+{#            <form method="POST" action="">#}
+{#                {{ form.hidden_tag() }}#}
+{#                {% with messages = get_flashed_messages(with_categories=true) %}#}
+{#                    {% if messages %}#}
+{#                        {% for category, message in messages %}#}
+{#                            <div class="alert alert-{{ category }}">#}
+{#                                {{ message }}#}
+{#                            </div>#}
+{#                        {% endfor %}#}
+{#                    {% endif %}#}
+{#                 {% endwith %}#}
+{#                {{ form.old_password }}#}
+{#                {{ form.new_password }}#}
+{#                {{ form.confirm_new_password }}#}
+{#                {{ form.submit }}#}
+{#            </form>#}
+{#        </div>#}
+    <div class="container">
+        <div class="row">
+            <div class="sidenav col-lg-2">
+                <a href="{{ url_for('account') }}">My Account</a><hr>
+                <a href="{{ url_for('account_email_pref') }}">Email Preferences</a><hr>
+                <a href="#">Change Password</a>
+            </div>
+            <div class="verticalLine">
+            </div>
+            <div class="main col-lg-10">
+                {% block account_content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

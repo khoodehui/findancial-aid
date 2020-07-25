@@ -253,6 +253,7 @@ body {
 .plan-section h2, h3{
   font-weight: 600;
 }
+
 /* END PLAN TABLE CLASSES */
 
 /* BACK TO TOP BUTTON */
@@ -390,4 +391,126 @@ body {
 
 .read-check:hover {
   filter: brightness(90%);
+}
+
+.flash_message{
+  margin-top: 2rem;
+}
+
+/* confirm_email_token_sent*/
+.middle-box{
+  text-align: center;
+  width: 100%;
+  max-width: 700px;
+  padding: 2rem;
+  background-color: #fff;
+  margin-top: -77px;
+}
+.cets-text{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  overflow-wrap: break-word;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  padding-bottom: 1rem;
+  color: #403f49;
+}
+.cets-text h2,h4{
+  padding-bottom: 1rem;
+}
+
+.spam-email {
+  color: grey;
+  font-size: 1.25rem;
+}
+
+.reset-middle-box{
+  width: 100%;
+  max-width: 700px;
+  padding: 2rem;
+  background-color: #fff;
+  margin-top: -77px;
+}
+
+.reset-button{
+  text-align: center;
+}
+
+.sidenav {
+
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  /*z-index: 1;*/
+  /*top: 0;*/
+  left: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+  border-right: solid rgba(0,0,0,.1);
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #769fcd;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.main {
+  margin-left: 230px; /* Same as the width of the sidenav */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 20px 0px;
+  text-align: center;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+
+.account-details{
+  text-align: left;
+}
+
+.account-title{
+  display: flex;
+  justify-content: space-between;
+  font-size: 2rem;
+}
+
+
+.account-tag{
+  display: inline-block;
+  margin-right: 3rem;
+}
+.account-info{
+  display: inline-block;
+}
+@media only screen and (max-width: 598px) {
+  .sidenav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    position: relative;
+    width: 100%;
+    height: 8rem;
+    margin-bottom: 2rem;
+    border: none;
+  }
+
+  .main{
+    bottom: 3rem;
+    margin: auto;
+    /*padding-top: 10px;*/
+  }
+  .account-title{
+    font-size: 1rem;
+  }
+
 }

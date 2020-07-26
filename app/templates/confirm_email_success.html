@@ -1,5 +1,32 @@
+{#{% extends 'base.html' %}#}
+{#{% block content %}#}
+{#    <div class="d-flex align-items-center h-100 px-3">#}
+{#         <p>Your account has been created! You can now use the application.</p>#}
+{#    <a href="{{ url_for('home') }}" class="btn btn-lg btn-primary">Continue</a>#}
+{#    </div>#}
+{##}
+{#{% endblock %}#}
 {% extends 'base.html' %}
 {% block content %}
-    <p>Your account has been created! You can now use the application.</p>
-    <a href="{{ url_for('home') }}" class="btn btn-lg btn-primary">Continue</a>
+    <div class="d-flex align-items-center justify-content-center h-100 px-3">
+        <div class="middle-box">
+            <div>
+
+
+                    <div class="cets-text">
+                        <h2><strong>Welcome {{ current_user.username }}!</strong></h2>
+                        <h4>Your account has been created! You can now use the application.</h4>
+                    </div>
+                    <div class="spam-email">
+                        <p>Click on the following button to continue using the app</p>
+                    </div>
+                    <a href="{{ url_for('home') }}" class="btn btn-lg btn-primary">Continue</a>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
 {% endblock %}

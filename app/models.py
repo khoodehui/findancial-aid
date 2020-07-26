@@ -45,18 +45,16 @@ class Plan(db.Model):
     application = db.Column(db.Text(), nullable=False)
     website = db.Column(db.String(250), nullable=False)
     # PLAN KEYWORDS
-    # kw1 = Childcare
+    # kw1 = General Aid
     # kw2 = Disability Aid
     # kw3 = Elderly Aid
-    # kw4 = HDB
+    # kw4 = Childcare
     # kw5 = Healthcare
-    # kw6 = Low Income
     kw1 = db.Column(db.Boolean(), nullable=False)
     kw2 = db.Column(db.Boolean(), nullable=False)
     kw3 = db.Column(db.Boolean(), nullable=False)
     kw4 = db.Column(db.Boolean(), nullable=False)
     kw5 = db.Column(db.Boolean(), nullable=False)
-    kw6 = db.Column(db.Boolean(), nullable=False)
 
     def __repr__(self):
         return f"Plan Name: {self.name}"

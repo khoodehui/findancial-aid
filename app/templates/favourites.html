@@ -18,11 +18,11 @@
                     </div>
                     <div class="plan-section mt-2">
                         <h3>Requirements</h3>
-                        <p class="article-content">{{ plan.req_short }}</p>
+                        <p class="article-content">{{ plan.req_short | safe }}</p>
                     </div>
                     <div class="plan-section">
                         <h3>Key Benefits</h3>
-                        <p class="article-content">{{ plan.benefits_short }}</p>
+                        <p class="article-content">{{ plan.benefits_short | safe }}</p>
                         <a href="{{ url_for("view_plan", plan_name=plan.name) }}">Read More</a>
                     </div>
                 </div>

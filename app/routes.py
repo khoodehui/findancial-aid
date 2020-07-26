@@ -1,10 +1,10 @@
 from threading import Thread
-from flask import render_template, flash, url_for, redirect, request, session
+from flask import render_template, flash, url_for, redirect, request, session, abort
 from flask_login import login_user, login_required, current_user, logout_user
 from flask_mail import Message
 from app import app, db, bcrypt, mail
 from app.forms import LoginForm, RegistrationForm, InsertPlanForm, SearchPlanForm, RequestResetForm, ResetPasswordForm, \
-    SendMailForm, EmailPreferencesForm
+    SendMailForm, EmailPreferencesForm, ChangePasswordForm, UpdatePlanForm
 from app.models import User, Plan, Announcement
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from sqlalchemy import or_
@@ -121,6 +121,8 @@ def verify_confirmation_token(token):
 
 @app.route('/signup/confirm')
 def confirm():
+    if session.get('email') is None:
+        return redirect(url_for('invalid_action'))
     send_confirmation_email()
     return render_template('confirm_email_token_sent.html', title='Sign Up')
 
@@ -178,15 +180,16 @@ def get_fav_id():
 @login_required
 def search():
     form = SearchPlanForm()
-    results = []
-    query_kw = []
-    if form.validate_on_submit():
-        all_kw = [Plan.kw1, Plan.kw2, Plan.kw3, Plan.kw4, Plan.kw5, Plan.kw6]
-        keywords = [form.kw1.data, form.kw2.data, form.kw3.data, form.kw4.data, form.kw5.data, form.kw6.data]
-        for i in range(6):
-            if keywords[i]:
-                query_kw.append(all_kw[i])
-        results = db.session.query(Plan).filter(or_(*query_kw, None)).all()
+    # results = []
+    # query_kw = []
+    # if form.validate_on_submit():
+    #     all_kw = [Plan.kw1, Plan.kw2, Plan.kw3, Plan.kw4, Plan.kw5]
+    #     keywords = [form.kw1.data, form.kw2.data, form.kw3.data, form.kw4.data, form.kw5.data]
+    #     for i in range(5):
+    #         if keywords[i]:
+    #             query_kw.append(all_kw[i])
+    #     results = db.session.query(Plan).filter(or_(*query_kw, None)).all()
+    results = Plan.query.all()
     return render_template('search.html', title="Search Plans", form=form, results=results, fav_id=get_fav_id())
 
 
@@ -213,6 +216,25 @@ def account_email_pref():
         flash('Your preferences has been updated.', 'success')
         return redirect(url_for('account_email_pref'))
     return render_template('account_email_pref.html', title="Account", form=form)
+
+
+@app.route('/account/change_password', methods=['GET', 'POST'])
+@login_required
+def account_change_password():
+    form = ChangePasswordForm()
+    if form.new_password.data == form.confirm_new_password.data:
+        if form.validate_on_submit():
+            if bcrypt.check_password_hash(current_user.password,form.old_password.data):
+                hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+                current_user.password = hashed_password
+                db.session.commit()
+                flash('Password has been changed.', 'success')
+                return redirect(url_for('account_change_password'))
+            else:
+                flash('Old password is incorrect.', 'danger')
+    else:
+        flash('Passwords do not match','danger')
+    return render_template('account_change_password.html', title='account_change_password',form=form)
 
 
 @app.route('/favourites')
@@ -247,21 +269,23 @@ def background_process_remove_favourite(plan_id):
     return ""
 
 
-@app.route('/addplan', methods=['GET', 'POST'])
+@app.route('/admin/add_plan', methods=['GET', 'POST'])
 @login_required
-def addplan():
+def add_plan():
+    if current_user.email != 'findancialaid@gmail.com':
+        abort(403)
     form = InsertPlanForm()
     if form.validate_on_submit():
         plan = Plan(name=form.name.data, req_short=form.req_short.data, req_full=form.req_full.data,
                     benefits_short=form.benefits_short.data, benefits_full=form.benefits_full.data,
                     application=form.application.data, website=form.website.data, kw1=form.kw1.data, kw2=form.kw2.data,
-                    kw3=form.kw3.data, kw4=form.kw4.data, kw5=form.kw5.data, kw6=form.kw6.data)
+                    kw3=form.kw3.data, kw4=form.kw4.data, kw5=form.kw5.data)
         db.session.add(plan)
         db.session.commit()
-        flash('Plan added successfully.')
-        return redirect(url_for('addplan'))
+        flash('Plan added successfully.', 'success')
+        return redirect(url_for('add_plan'))
     else:
-        return render_template('insertplan.html', form=form)
+        return render_template('insertplan.html', title='Insert Plan', form=form)
 
 
 def get_unread_announcements_id():
@@ -276,9 +300,62 @@ def get_unread_announcements_id():
     return ua_id_int
 
 
-@app.route('/post_announcement', methods=['GET', 'POST'])
+@app.route('/admin/edit_plan/<int:plan_id>', methods=['GET', 'POST'])
+@login_required
+def edit_plan(plan_id):
+    if current_user.email != 'findancialaid@gmail.com':
+        abort(403)
+    plan = Plan.query.get_or_404(plan_id)
+    form = UpdatePlanForm()
+    if form.validate_on_submit():
+        plan.name = form.name.data
+        plan.website = form.website.data
+        plan.req_short = form.req_short.data
+        plan.req_full = form.req_full.data
+        plan.benefits_short = form.benefits_short.data
+        plan.benefits_full = form.benefits_full.data
+        plan.application = form.application.data
+        plan.kw1 = form.kw1.data
+        plan.kw2 = form.kw2.data
+        plan.kw3 = form.kw3.data
+        plan.kw4 = form.kw4.data
+        plan.kw5 = form.kw5.data
+        db.session.commit()
+        flash('Plan updated.', 'success')
+        return redirect(url_for('edit_plan', plan_id=plan.id))
+    elif request.method == 'GET':
+        form.name.data = plan.name
+        form.website.data = plan.website
+        form.req_short.data = plan.req_short
+        form.req_full.data = plan.req_full
+        form.benefits_short.data = plan.benefits_short
+        form.benefits_full.data = plan.benefits_full
+        form.application.data = plan.application
+        form.kw1.data = plan.kw1
+        form.kw2.data = plan.kw2
+        form.kw3.data = plan.kw3
+        form.kw4.data = plan.kw4
+        form.kw5.data = plan.kw5
+    return render_template('edit_plan.html', title='Edit Plan', form=form, plan=plan)
+
+
+@app.route('/admin/delete_plan/<int:plan_id>', methods=['POST'])
+@login_required
+def delete_plan(plan_id):
+    if current_user.email != 'findancialaid@gmail.com':
+        abort(403)
+    plan = Plan.query.get_or_404(plan_id)
+    db.session.delete(plan)
+    db.session.commit()
+    return redirect(url_for('search'))
+
+
+@app.route('/admin/post_announcement', methods=['GET', 'POST'])
 @login_required
 def post_announcement():
+    if current_user.email != 'findancialaid@gmail.com':
+        abort(403)
+
     form = SendMailForm()
     if form.validate_on_submit():
         announcement = Announcement(title=form.title.data, content=form.content.data)
@@ -300,6 +377,7 @@ def post_announcement():
 
 
 @app.route('/announcements')
+@login_required
 def announcements():
     unread_id = get_unread_announcements_id()
     unread = db.session.query(Announcement).filter(Announcement.id.in_(unread_id)).order_by(Announcement.date_posted.desc()).all()
@@ -329,3 +407,26 @@ def background_process_read_announcement(announcement_id):
     current_user.unread_announcements = current_user.unread_announcements.replace("," + announcement_id, "")
     db.session.commit()
     return ""
+
+
+
+
+
+# def abc(id, kw1=False, kw2=False, kw3=False, kw4=False, kw5=False):
+#     plan = Plan.query.get(id)
+#     plan.kw1 = kw1
+#     plan.kw2 = kw2
+#     plan.kw3 = kw3
+#     plan.kw4 = kw4
+#     plan.kw5 = kw5
+#     db.session.commit()
+#     # PLAN KEYWORDS
+#     # kw1 = General Aid
+#     # kw2 = Disability Aid
+#     # kw3 = Elderly Aid
+#     # kw4 = Childcare
+#     # kw5 = Healthcare
+#
+#
+# def xyz(id):
+#     return Plan.query.get(id)

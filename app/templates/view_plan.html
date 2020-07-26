@@ -27,14 +27,23 @@
                     <div>
                         <h2>{{ plan.name }}</h2>
                     </div>
+                    {% if current_user.email == 'findancialaid@gmail.com' %}
+                        <div>
+                            <a href="{{ url_for('edit_plan', plan_id = plan.id) }}" class="btn btn-light">Edit</a>
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="plan-section mt-2">
                     <h3>Requirements</h3>
-                    <p class="article-content">{{ plan.req_full }}</p>
+                    <p class="article-content">{{ plan.req_full | safe }}</p>
                 </div>
                 <div class="plan-section">
                     <h3>Benefits</h3>
-                    <p class="article-content">{{ plan.benefits_full}}</p>
+                    <p class="article-content">{{ plan.benefits_full | safe}}</p>
+                </div>
+                <div class="plan-section">
+                    <h3>How to Apply</h3>
+                    <p class="article-content">{{ plan.application | safe}}</p>
                     <a href="{{ plan.website }}">View Source Website</a>
                 </div>
             </div>

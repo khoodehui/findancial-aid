@@ -15,7 +15,8 @@
         {% endwith %}
     </div>
     <div class="container">
-        <h1>Insert Plan</h1>
+        <h1>Edit Plan</h1>
+        <button type="button" class="btn btn-danger btn-sm mt-1 mb-1" data-toggle="modal" data-target="#deleteModal">Delete Plan</button>
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <div class="form-group">
@@ -73,6 +74,24 @@
             </div>
             <button class="submit-button">{{ form.submit }}</button>
         </form>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Plan?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <form action="{{ url_for('delete_plan', plan_id=plan.id) }}" method="POST">
+                        <input class="btn btn-danger" type="submit" value="Delete">
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 {% block scripts %}

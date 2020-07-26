@@ -31,11 +31,6 @@
                     {{ form.kw5 }}
                     <span class="check-mark"></span>
                  </label>
-                 <label class="custom-check col-lg-4 col-md-6">
-                    {{ form.kw6.label }}
-                    {{ form.kw6 }}
-                    <span class="check-mark"></span>
-                 </label>
                 <button class="submit-button">{{ form.submit }}</button>
             </div>
         </form>
@@ -50,6 +45,9 @@
                             <h2>{{ plan.name }}</h2>
                         </div>
                         <div class="fav">
+                            {% if current_user.email == 'findancialaid@gmail.com' %}
+                                <a href="{{ url_for('edit_plan', plan_id = plan.id) }}" class="btn btn-light">Edit</a>
+                            {% endif %}
                             {% if plan.id in fav_id %}
                             <i id="{{ plan.id }}" class="fas fa-star fav-btn fav-btn-checked"></i>
                             {% else %}
@@ -59,11 +57,11 @@
                     </div>
                     <div class="plan-section mt-2">
                         <h3>Requirements</h3>
-                        <p class="article-content">{{ plan.req_short }}</p>
+                        <p class="article-content">{{ plan.req_short | safe }}</p>
                     </div>
                     <div class="plan-section">
                         <h3>Key Benefits</h3>
-                        <p class="article-content">{{ plan.benefits_short }}</p>
+                        <p class="article-content">{{ plan.benefits_short | safe }}</p>
                         <a href="{{ url_for("view_plan", plan_name=plan.name) }}">Read More</a>
                     </div>
                 </div>

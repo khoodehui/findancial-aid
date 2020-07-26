@@ -1,30 +1,26 @@
 {% extends 'account_page_layout.html' %}
 {% block account_content %}
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+    <div class="account-head">
+        <i class="fas fa-envelope icon-user"></i>
+        <p class="my-pro">Email Preferences</p>
+    </div>
     <div class="card account-details">
         <div class="card-body">
-            <h1 class="account-head">Email Preferences</h1>
-            <p>You can change your email subscription preferences below.</p>
-            <form action="" method="POST">
-                {{ form.hidden_tag() }}
-                <div>
-                    {% if current_user.mailing_list %}
-                        {{ form.receive_email(checked=True) }}
-                    {% else %}
-                        {{ form.receive_email }}
-                    {% endif %}
-                    {{ form.receive_email.label }}
-                </div>
-                <button class="btn btn-primary">{{ form.submit }}</button>
-            </form>
+            <p class="account-header">You can change your email subscription preferences below.</p>
+            <div class="account-preferences">
+                <form action="" method="POST">
+                    {{ form.hidden_tag() }}
+                    <div>
+                        {% if current_user.mailing_list %}
+                            {{ form.receive_email(checked=True) }}
+                        {% else %}
+                            {{ form.receive_email }}
+                        {% endif %}
+                        {{ form.receive_email.label }}
+                    </div>
+                    <button class="btn btn-primary pref-btn">{{ form.submit}}</button>
+                </form>
+            </div>
         </div>
     </div>
 {% endblock %}

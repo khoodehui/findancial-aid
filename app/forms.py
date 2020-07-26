@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from app.models import User
 
@@ -47,13 +47,19 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('This email is already connected to an account.')
 
 
+class ChangePasswordForm(FlaskForm):
+    old_password = PasswordField('Old Password',validators=[DataRequired()])
+    new_password = PasswordField('New Password', validators=[DataRequired()])
+    confirm_new_password = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('new_password')])
+    submit = SubmitField('Change Password')
+
+
 class SearchPlanForm(FlaskForm):
     kw1 = BooleanField('Childcare')
     kw2 = BooleanField('Disability Aid')
     kw3 = BooleanField('Elderly Aid')
     kw4 = BooleanField('HDB')
     kw5 = BooleanField('Healthcare')
-    kw6 = BooleanField('Low Income Aid')
     submit = SubmitField('Submit')
 
 
@@ -66,19 +72,39 @@ class InsertPlanForm(FlaskForm):
     application = TextAreaField('Application', validators=[DataRequired()])
     website = StringField('Website link', validators=[DataRequired()])
     # PLAN KEYWORDS
-    # kw1 = Childcare
+    # kw1 = General Aid
     # kw2 = Disability Aid
     # kw3 = Elderly Aid
-    # kw4 = HDB
+    # kw4 = Childcare
     # kw5 = Healthcare
-    # kw6 = Low Income Aid
-    kw1 = BooleanField('Childcare')
+    kw1 = BooleanField('General Aid')
     kw2 = BooleanField('Disability Aid')
     kw3 = BooleanField('Elderly Aid')
-    kw4 = BooleanField('HDB')
+    kw4 = BooleanField('Childcare')
     kw5 = BooleanField('Healthcare')
-    kw6 = BooleanField('Low Income Aid')
-    submit = SubmitField('Submit')
+    submit = SubmitField('Add Plan')
+
+
+class UpdatePlanForm(FlaskForm):
+    name = TextAreaField('Name', validators=[DataRequired()])
+    req_short = TextAreaField('Requirements Summarised', validators=[DataRequired()])
+    req_full = TextAreaField('Requirements Full', validators=[DataRequired()])
+    benefits_short = TextAreaField('Benefits Summarised', validators=[DataRequired()])
+    benefits_full = TextAreaField('Benefits Full', validators=[DataRequired()])
+    application = TextAreaField('Application', validators=[DataRequired()])
+    website = StringField('Website link', validators=[DataRequired()])
+    # PLAN KEYWORDS
+    # kw1 = General Aid
+    # kw2 = Disability Aid
+    # kw3 = Elderly Aid
+    # kw4 = Childcare
+    # kw5 = Healthcare
+    kw1 = BooleanField('General Aid')
+    kw2 = BooleanField('Disability Aid')
+    kw3 = BooleanField('Elderly Aid')
+    kw4 = BooleanField('Childcare')
+    kw5 = BooleanField('Healthcare')
+    submit = SubmitField('Update')
 
 
 class SendMailForm(FlaskForm):

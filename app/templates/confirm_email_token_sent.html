@@ -1,4 +1,38 @@
+{#{% extends 'base.html' %}#}
+{#{% block content %}#}
+{#    <div class="d-flex align-items-center justify-content-center h-100 px-3">#}
+{#        <div class='middle-box'>#}
+{#            <h1>Hello {{ session.get('username') }}</h1><br>#}
+{#            <h2>An email will be sent to {{ session.get('email') }} shortly.</h2>#}
+{#        </div>#}
+{##}
+{#    </div>#}
+{##}
+{##}
+{#{% endblock %}#}
 {% extends 'base.html' %}
 {% block content %}
-    <p>An email will be sent to {{ session.get('email') }} shortly.</p>
+    <div class="d-flex align-items-center justify-content-center h-100 px-3">
+        <div class="middle-box">
+            <div>
+
+
+                    <div class="cets-text">
+                        <h2><strong>Please check your email</strong></h2>
+                        <h4>We've sent a link to the following email to confirm your account</h4>
+                        <h2>{{ session.get('email') }}</h2>
+                    </div>
+
+                    <div class="spam-email">
+                        <p><strong>Haven't received the email?</strong> Please check your spam/junk folder to make sure
+                        it's not there.</p>
+                    </div>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
 {% endblock %}

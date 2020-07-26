@@ -1,42 +1,59 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="container">
-        <p class="select-plan">Select the type(s) of plan(s)</p>
-        <form method="POST" action="">
-            {{ form.hidden_tag() }}
-            <div class="row checkboxes">
-                 <label class="custom-check col-lg-4 col-md-6">
-                    {{ form.kw1.label }}
-                    {{ form.kw1 }}
-                    <span class="check-mark"></span>
-                 </label>
-                 <label class="custom-check col-lg-4 col-md-6">
-                    {{ form.kw2.label }}
-                    {{ form.kw2 }}
-                    <span class="check-mark"></span>
-                 </label>
-
-                 <label class="custom-check col-lg-4 col-md-6">
-                    {{ form.kw3.label }}
-                    {{ form.kw3 }}
-                    <span class="check-mark"></span>
-                 </label>
-                 <label class="custom-check col-lg-4 col-md-6">
-                    {{ form.kw4.label }}
-                    {{ form.kw4 }}
-                    <span class="check-mark"></span>
-                 </label>
-                 <label class="custom-check col-lg-4 col-md-6">
-                    {{ form.kw5.label }}
-                    {{ form.kw5 }}
-                    <span class="check-mark"></span>
-                 </label>
-                <button class="submit-button">{{ form.submit }}</button>
-            </div>
-        </form>
+    <div class="container mt-3">
+{#        <p class="select-plan">Select the category of plan to search.</p>#}
+{#        <form method="POST" action="">#}
+{#            {{ form.hidden_tag() }}#}
+{#            <div class="row checkboxes">#}
+{#                 <label class="custom-check col-lg-4 col-md-6">#}
+{#                    {{ form.kw1.label }}#}
+{#                    {{ form.kw1 }}#}
+{#                    <span class="check-mark"></span>#}
+{#                 </label>#}
+{#                 <label class="custom-check col-lg-4 col-md-6">#}
+{#                    {{ form.kw2.label }}#}
+{#                    {{ form.kw2 }}#}
+{#                    <span class="check-mark"></span>#}
+{#                 </label>#}
+{##}
+{#                 <label class="custom-check col-lg-4 col-md-6">#}
+{#                    {{ form.kw3.label }}#}
+{#                    {{ form.kw3 }}#}
+{#                    <span class="check-mark"></span>#}
+{#                 </label>#}
+{#                 <label class="custom-check col-lg-4 col-md-6">#}
+{#                    {{ form.kw4.label }}#}
+{#                    {{ form.kw4 }}#}
+{#                    <span class="check-mark"></span>#}
+{#                 </label>#}
+{#                 <label class="custom-check col-lg-4 col-md-6">#}
+{#                    {{ form.kw5.label }}#}
+{#                    {{ form.kw5 }}#}
+{#                    <span class="check-mark"></span>#}
+{#                 </label>#}
+{#                <button class="submit-button">{{ form.submit }}</button>#}
+{#            </div>#}
+{#        </form>#}
+        <h1 class="fav-head">
+         <i class="fas fa-th-list"></i>
+         Search
+        </h1>
+        <div class="mt-4">
+            <form action="" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="d-flex justify-content-between">
+                    <div class="form-group w-100 mr-3">
+                        {{ form.category(class="form-control form-control-lg") }}
+                    </div>
+                    <div>
+                        <button class="submit-button">{{ form.submit }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
     <hr>
-    <div class="container">
+    <div class="container mb-5">
         {% for plan in results %}
             <div class="card mt-3">
                 <div class="card-body">

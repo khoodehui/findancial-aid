@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-     <div class="container">
+     <div class="container mt-3">
      <h1 class="fav-head">
          <i class="bullhorn-icon fas fa-bullhorn"></i>
          Announcements
@@ -25,7 +25,9 @@
                 </div>
          </div>
     {% endfor %}
-     {{ pagination.links }}
+     <div class="my-5">
+        {{ pagination.links }}
+     </div>
     </div>
     <button id="back-to-top" onclick="backToTop()"><i class="fas fa-chevron-up"></i></button>
 {% endblock %}

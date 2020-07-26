@@ -1,5 +1,4 @@
 from flask_wtf import FlaskForm
-from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from app.models import User
@@ -62,6 +61,16 @@ class SearchPlanForm(FlaskForm):
     kw5 = BooleanField('Healthcare')
     submit = SubmitField('Submit')
 
+
+class SearchPlanForm2(FlaskForm):
+    category = SelectField('Category',
+                           choices=[("placeholder", "Select Category"),
+                                    ("kw1", "General Aid"),
+                                    ("kw2", "Disability Aid"),
+                                    ("kw3", "Elderly Aid"),
+                                    ("kw4", "Childcare Aid"),
+                                    ("kw5", "Healthcare Aid")])
+    submit = SubmitField('Search')
 
 class InsertPlanForm(FlaskForm):
     name = TextAreaField('Name', validators=[DataRequired()])

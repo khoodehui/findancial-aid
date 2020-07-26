@@ -55,6 +55,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('home') }}">Home</a>
                 </li>
+                 {% if current_user.email == "findancialaid@gmail.com" %}
+                     <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('add_plan') }}">Add Plan</a>
+                     </li>
+                 {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('account') }}">Account</a>
                 </li>

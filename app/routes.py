@@ -3,7 +3,7 @@ from flask import render_template, flash, url_for, redirect, request, session, a
 from flask_login import login_user, login_required, current_user, logout_user
 from flask_mail import Message
 from app import app, db, bcrypt, mail
-from app.forms import LoginForm, RegistrationForm, InsertPlanForm, SearchPlanForm, RequestResetForm, ResetPasswordForm, \
+from app.forms import LoginForm, RegistrationForm, InsertPlanForm, SearchPlanForm2, RequestResetForm, ResetPasswordForm, \
     SendMailForm, EmailPreferencesForm, ChangePasswordForm, UpdatePlanForm
 from app.models import User, Plan, Announcement
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -179,8 +179,8 @@ def get_fav_id():
 @app.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
-    form = SearchPlanForm()
-    # results = []
+    form = SearchPlanForm2()
+    results = []
     # query_kw = []
     # if form.validate_on_submit():
     #     all_kw = [Plan.kw1, Plan.kw2, Plan.kw3, Plan.kw4, Plan.kw5]
@@ -189,7 +189,10 @@ def search():
     #         if keywords[i]:
     #             query_kw.append(all_kw[i])
     #     results = db.session.query(Plan).filter(or_(*query_kw, None)).all()
-    results = Plan.query.all()
+    if form.validate_on_submit():
+        if form.category.data != 'placeholder':
+            results = eval("Plan.query.filter_by(" + form.category.data + "=True).all()")
+    # results = Plan.query.all()
     return render_template('search.html', title="Search Plans", form=form, results=results, fav_id=get_fav_id())
 
 

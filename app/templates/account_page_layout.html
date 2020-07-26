@@ -32,18 +32,26 @@
 {#    </div>#}
     <div class="account-grid">
         <div class="account-tabs-catalog">
-            <div>
-                <a href="{{ url_for('account') }}">
-                    <div>
+            <div class="w-100 h-100">
+                <a href="{{ url_for('account') }}" class="h2-a">
+                    <div class="h2-button w-100 h-100">
                         My Account
                     </div>
                 </a>
             </div>
-            <div>
-                <a href="{{ url_for('account_email_pref') }}">Email Preferences</a>
+            <div class="w-100 h-100">
+                <a href="{{ url_for('account_email_pref') }}" class="h2-a">
+                    <div class="h2-button w-100 h-100">
+                        Email Preferences
+                    </div>
+                </a>
             </div>
-            <div>
-                <a href="{{ url_for('account_change_password') }}">Change Password</a>
+            <div class="w-100 h-100">
+                <a href="{{ url_for('account_change_password') }}" class="h2-a">
+                    <div class="h2-button w-100 h-100">
+                        Change Password
+                    </div>
+                </a>
             </div>
         </div>
         <div>
@@ -56,8 +64,10 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-            {% block account_content %}
-            {% endblock %}
+            <div class="container">
+                {% block account_content %}
+                {% endblock %}
+            </div>
         </div>
     </div>
 {% endblock %}

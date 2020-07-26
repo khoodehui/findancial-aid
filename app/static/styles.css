@@ -480,18 +480,19 @@ body {
 }
 
 .account-title{
-  display: flex;
-  justify-content: space-between;
   font-size: 2rem;
 }
 
 
 .account-tag{
-  display: inline-block;
-  margin-right: 3rem;
+  /*display: inline-block;*/
+  /*margin-right: 3rem;*/
+  /*text-align: right;*/
 }
 .account-info{
-  display: inline-block;
+  /*display: inline-block;*/
+  /*text-align: left;*/
+  overflow-wrap: break-word;
 }
 
 .account-head{
@@ -562,7 +563,7 @@ body {
 }
 
 .account-tag{
-  padding-left: 1rem;
+  /*padding-left: 1rem;*/
 }
 
 /*@media (min-width: 992px) {*/
@@ -638,3 +639,11 @@ body {
 /*.account-tab:hover {*/
 /*  filter: brightness(90%);*/
 /*}*/
+
+.email-check {
+  font-size: 1.5rem;
+}
+
+.email-check input[type=checkbox] {
+    zoom: 1.5;
+}

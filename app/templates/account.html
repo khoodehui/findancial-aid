@@ -6,21 +6,20 @@
     </div>
     <div class="card account-details">
         <div class="card-body">
-            <h1 class="account-header">Personal Details</h1>
-            <div class="row">
+            <div class="row account-title">
                 <div class="col-md-4">
-                    <p class="">Username</p>
+                    <p class="account-tag"><strong>Username</strong></p>
                 </div>
                 <div class="col-md-8">
-                    <p class="">{{ current_user.username }}</p>
+                    <p class="account-info">{{ current_user.username }}</p>
                 </div>
             </div>
-            <div class="row">
+            <div class="row account-title">
                 <div class="col-md-4">
-                    <p class="">Email</p>
+                    <p class="account-tag"><strong>Email</strong></p>
                 </div>
                 <div class="col-md-8">
-                    <p class="">{{ current_user.email }}</p>
+                    <p class="account-info">{{ current_user.email }}</p>
                 </div>
             </div>
         </div>

@@ -10,7 +10,7 @@
             <div class="account-preferences">
                 <form action="" method="POST">
                     {{ form.hidden_tag() }}
-                    <div>
+                    <div class="email-check">
                         {% if current_user.mailing_list %}
                             {{ form.receive_email(checked=True) }}
                         {% else %}
@@ -18,7 +18,7 @@
                         {% endif %}
                         {{ form.receive_email.label }}
                     </div>
-                    <button class="btn btn-primary pref-btn">{{ form.submit}}</button>
+                    <button class="mt-4 btn btn-lg btn-primary">{{ form.submit}}</button>
                 </form>
             </div>
         </div>

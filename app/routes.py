@@ -4,7 +4,7 @@ from flask_login import login_user, login_required, current_user, logout_user
 from flask_mail import Message
 from app import app, db, bcrypt, mail
 from app.forms import LoginForm, RegistrationForm, InsertPlanForm, SearchPlanForm, RequestResetForm, ResetPasswordForm, \
-    SendMailForm, EmailPreferencesForm
+    SendMailForm, EmailPreferencesForm, ChangePasswordForm
 from app.models import User, Plan, Announcement
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from sqlalchemy import or_
@@ -195,6 +195,24 @@ def search():
 def view_plan(plan_name):
     plan = Plan.query.filter_by(name=plan_name).first_or_404()
     return render_template('view_plan.html', title=plan.name, plan=plan)
+
+app.route('/account/change_password', methods=['GET', 'POST'])
+@login_required
+def account_change_password():
+    form = ChangePasswordForm()
+    if form.new_password.data == form.confirm_new_password.data:
+        if form.validate_on_submit():
+            if bcrypt.check_password_hash(current_user.password,form.old_password.data):
+                hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+                current_user.password = hashed_password
+                db.session.commit()
+                flash('Password has been changed.', 'success')
+                return redirect(url_for('account_change_password'))
+            else:
+                flash('Old password is incorrect.', 'danger')
+    else:
+        flash('Passwords do not match','danger')
+    return render_template('account_change_password.html', title='account_change_password',form=form)
 
 
 @app.route('/account')

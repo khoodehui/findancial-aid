@@ -17,6 +17,7 @@ class User(db.Model, UserMixin):
     favourites = db.Column(db.Text())
     unread_announcements = db.Column(db.Text())
     mailing_list = db.Column(db.Boolean())
+    not_interested = db.Column(db.Text())
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)

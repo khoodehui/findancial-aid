@@ -3,11 +3,10 @@ from flask import render_template, flash, url_for, redirect, request, session, a
 from flask_login import login_user, login_required, current_user, logout_user
 from flask_mail import Message
 from app import app, db, bcrypt, mail
-from app.forms import LoginForm, RegistrationForm, InsertPlanForm, SearchPlanForm2, RequestResetForm, ResetPasswordForm, \
+from app.forms import LoginForm, RegistrationForm, InsertPlanForm, SearchPlanForm, RequestResetForm, ResetPasswordForm, \
     SendMailForm, EmailPreferencesForm, ChangePasswordForm, UpdatePlanForm
 from app.models import User, Plan, Announcement
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from sqlalchemy import or_
 from flask_paginate import Pagination, get_page_parameter
 
 
@@ -104,7 +103,7 @@ def send_confirmation_email(expires_sec=1800):
 
 def send_async_email(title, recipients, msg_body="", msg_html=""):
     with app.app_context():
-        msg = Message(title, sender='noreply@demo.com', recipients=recipients)
+        msg = Message(title, sender='findancialaid@gmail.com', recipients=recipients)
         msg.body = msg_body
         msg.html = msg_html
         mail.send(msg)
@@ -131,7 +130,7 @@ def confirm():
 def confirmed(token):
     if verify_confirmation_token(token):
         user = User(username=session.get('username'), email=session.get('email'), password=session.get('password'),
-                    favourites="", unread_announcements="", mailing_list=session.get('receive_email'))
+                    favourites="", unread_announcements="", mailing_list=session.get('receive_email'), not_interested="")
         db.session.add(user)
         db.session.commit()
         session.pop('username')
@@ -176,24 +175,33 @@ def get_fav_id():
     return fav_id_int
 
 
+def get_not_interested_id():
+    ni_id_str = current_user.not_interested.split(",")
+    ni_id_int = []
+
+    for id in ni_id_str:
+        if id == "":
+            continue
+        else:
+            ni_id_int.append(int(id))
+    return ni_id_int
+
+
 @app.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
-    form = SearchPlanForm2()
+    form = SearchPlanForm()
     results = []
-    # query_kw = []
-    # if form.validate_on_submit():
-    #     all_kw = [Plan.kw1, Plan.kw2, Plan.kw3, Plan.kw4, Plan.kw5]
-    #     keywords = [form.kw1.data, form.kw2.data, form.kw3.data, form.kw4.data, form.kw5.data]
-    #     for i in range(5):
-    #         if keywords[i]:
-    #             query_kw.append(all_kw[i])
-    #     results = db.session.query(Plan).filter(or_(*query_kw, None)).all()
+    ni = get_not_interested_id()
     if form.validate_on_submit():
         if form.category.data != 'placeholder':
-            results = eval("Plan.query.filter_by(" + form.category.data + "=True).all()")
-    # results = Plan.query.all()
-    return render_template('search.html', title="Search Plans", form=form, results=results, fav_id=get_fav_id())
+            # results = eval("Plan.query.filter_by(" + form.category.data + "=True).all()")
+            interested = eval("db.session.query(Plan).filter(Plan." + form.category.data + "==True).filter(~Plan.id.in_(ni)).all()")
+            not_interested = eval("db.session.query(Plan).filter(Plan." + form.category.data + "==True).filter(Plan.id.in_(ni)).all()")
+            interested.extend(not_interested)
+            results = interested
+    return render_template('search.html', title="Search Plans", form=form, results=results, fav_id=get_fav_id(),
+                           not_interested=ni)
 
 
 @app.route('/plan/<string:plan_name>')
@@ -237,7 +245,7 @@ def account_change_password():
                 flash('Old password is incorrect.', 'danger')
     else:
         flash('Passwords do not match','danger')
-    return render_template('account_change_password.html', title='account_change_password',form=form)
+    return render_template('account_change_password.html', title='account_change_password', form=form)
 
 
 @app.route('/favourites')
@@ -271,6 +279,24 @@ def background_process_remove_favourite(plan_id):
     db.session.commit()
     return ""
 
+
+@app.route('/background_process_not_interested/<string:plan_id>')
+@login_required
+def background_process_not_interested(plan_id):
+    not_interested = current_user.not_interested
+    if plan_id not in not_interested.split(","):
+        current_user.not_interested = not_interested + "," + plan_id
+        db.session.commit()
+    return ""
+
+
+@app.route('/background_process_remove_not_interested/<string:plan_id>')
+@login_required
+def background_process_remove_not_interested(plan_id):
+    new_not_interested = current_user.not_interested.replace("," + plan_id, "")
+    current_user.not_interested = new_not_interested
+    db.session.commit()
+    return ""
 
 @app.route('/admin/add_plan', methods=['GET', 'POST'])
 @login_required
@@ -368,12 +394,12 @@ def post_announcement():
             user.unread_announcements = user.unread_announcements + "," + str(announcement.id)
 
         db.session.commit()
-        # raw_email_data = db.session.query(User.email).filter(User.mailing_list).all()
-        # msg_html = form.content.data
-        # title = form.title.data
-        # recipients = [item[0] for item in raw_email_data]
-        # thr = Thread(target=send_async_email, args=[title, recipients, "", msg_html])
-        # thr.start()
+        raw_email_data = db.session.query(User.email).filter(User.mailing_list).all()
+        msg_html = form.content.data
+        title = form.title.data
+        recipients = [item[0] for item in raw_email_data]
+        thr = Thread(target=send_async_email, args=[title, recipients, "", msg_html])
+        thr.start()
         flash("Announcement posted and emails notifications sent.", "success")
         return redirect(url_for('post_announcement'))
     return render_template('post_announcement.html', form=form)
@@ -410,26 +436,3 @@ def background_process_read_announcement(announcement_id):
     current_user.unread_announcements = current_user.unread_announcements.replace("," + announcement_id, "")
     db.session.commit()
     return ""
-
-
-
-
-
-# def abc(id, kw1=False, kw2=False, kw3=False, kw4=False, kw5=False):
-#     plan = Plan.query.get(id)
-#     plan.kw1 = kw1
-#     plan.kw2 = kw2
-#     plan.kw3 = kw3
-#     plan.kw4 = kw4
-#     plan.kw5 = kw5
-#     db.session.commit()
-#     # PLAN KEYWORDS
-#     # kw1 = General Aid
-#     # kw2 = Disability Aid
-#     # kw3 = Elderly Aid
-#     # kw4 = Childcare
-#     # kw5 = Healthcare
-#
-#
-# def xyz(id):
-#     return Plan.query.get(id)

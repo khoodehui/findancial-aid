@@ -247,6 +247,27 @@ body {
   filter: brightness(110%);
 }
 
+.td-btn {
+  cursor: pointer;
+}
+
+.td-btn-unchecked {
+  color: grey;
+}
+
+.td-btn-unchecked:hover {
+  color: indianred;
+  opacity: 0.5;
+}
+
+.td-btn-checked {
+  color: indianred;
+}
+
+.td-btn-checked:hover {
+  filter: brightness(110%);
+}
+
 .plan-section {
   padding: 0.75rem;
 }

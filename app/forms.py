@@ -54,15 +54,6 @@ class ChangePasswordForm(FlaskForm):
 
 
 class SearchPlanForm(FlaskForm):
-    kw1 = BooleanField('Childcare')
-    kw2 = BooleanField('Disability Aid')
-    kw3 = BooleanField('Elderly Aid')
-    kw4 = BooleanField('HDB')
-    kw5 = BooleanField('Healthcare')
-    submit = SubmitField('Submit')
-
-
-class SearchPlanForm2(FlaskForm):
     category = SelectField('Category',
                            choices=[("placeholder", "Select Category"),
                                     ("kw1", "General Aid"),
@@ -89,8 +80,8 @@ class InsertPlanForm(FlaskForm):
     kw1 = BooleanField('General Aid')
     kw2 = BooleanField('Disability Aid')
     kw3 = BooleanField('Elderly Aid')
-    kw4 = BooleanField('Childcare')
-    kw5 = BooleanField('Healthcare')
+    kw4 = BooleanField('Childcare Aid')
+    kw5 = BooleanField('Healthcare Aid')
     submit = SubmitField('Add Plan')
 
 
